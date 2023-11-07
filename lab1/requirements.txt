@@ -1,6 +1,6 @@
 #If you have windows, install twofish
 #twofish
-# hopsworks
+# hopsworks this need to be installed with pip
 joblib
 scikit-learn==1.1.1
 seaborn
