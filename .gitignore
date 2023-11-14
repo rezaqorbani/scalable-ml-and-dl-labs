@@ -2,3 +2,5 @@
 .venv/
 launch.json
 iris_model/
+.mypy_cache/
+
