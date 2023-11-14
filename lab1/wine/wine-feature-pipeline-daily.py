@@ -39,7 +39,7 @@ def generate_wine(quality, types, fixed_acidity_max, fixed_acidity_min, volatile
     df['quality'] = quality
     return df
 
-def get_random_iris_flower():
+def get_random_wine():
     """
     Returns a DataFrame containing one random iris flower
     """
