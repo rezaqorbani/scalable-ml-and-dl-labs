@@ -63,7 +63,7 @@ def g():
     project = hopsworks.login()
     fs = project.get_feature_store()
 
-    iris_df = get_random_iris_flower()
+    iris_df = get_random_wine()
 
     iris_fg = fs.get_feature_group(name="iris",version=1)
     iris_fg.insert(iris_df)
