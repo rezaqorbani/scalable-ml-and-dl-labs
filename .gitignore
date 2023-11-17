@@ -4,3 +4,5 @@ launch.json
 iris_model/
 .mypy_cache/
 
+.env
+HOPSWORKS_API_KEY=IbhucZak7f9rYJKS.bO7LHBZROZ2eKQjia4AG0onolCUu8vodVwMKCDwo1jmknZ9jFrmOwDU7SWGoN8kJ
