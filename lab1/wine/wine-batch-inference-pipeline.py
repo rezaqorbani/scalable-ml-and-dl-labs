@@ -36,25 +36,28 @@ def g():
     
     y_pred = model.predict(batch_data)
 
-    offset = 10
+    offset = 4
     res = y_pred[y_pred.size-offset]
-    wine = 'Good' if res[0] == 1 else 'Bad'
-    wine_url = "https://raw.githubusercontent.com/rezaqorbani/scalable-ml-and-dl-labs/main/lab1/wine/wine_images/" + str(res[0]) + ".png"
-    print("Wine quality predicted: " + wine)
+    res = int(res)
+    
+    wine_url = "https://raw.githubusercontent.com/rezaqorbani/scalable-ml-and-dl-labs/main/lab1/wine/wine_images/" + str(res) + ".png"
+    print("Wine quality predicted: " + ("Good" if res == 1 else "Bad"))
     img = Image.open(requests.get(wine_url, stream=True).raw)            
     img.save("./latest_wine_prediction.png")
     dataset_api = project.get_dataset_api()    
     dataset_api.upload("./latest_wine_prediction.png", "Resources/images", overwrite=True)
    
-    iris_fg = fs.get_feature_group(name="wine", version=1)
-    df = iris_fg.read() 
+    wine_fg = fs.get_feature_group(name="wine", version=1)
+    df = wine_fg.read() 
 
     label = df.iloc[-offset]["quality"]
-    label_url = "https://raw.githubusercontent.com/rezaqorbani/scalable-ml-and-dl-labs/main/lab1/wine/wine_images/" + label + ".png"
-    print("Wine quality actual: " + label)
+    label = int(label)
+
+    label_url = "https://raw.githubusercontent.com/rezaqorbani/scalable-ml-and-dl-labs/main/lab1/wine/wine_images/" + str(label) + ".png"
+    print("Wine quality actual: " + ("Good" if label == 1 else "Bad"))
     img = Image.open(requests.get(label_url, stream=True).raw)            
     img.save("./actual_wine_quality.png")
-    dataset_api.upload("./actual_wine.png", "Resources/images", overwrite=True)
+    dataset_api.upload("./actual_wine_quality.png", "Resources/images", overwrite=True)
     
     monitor_fg = fs.get_or_create_feature_group(name="wine_predictions",
                                                 version=1,
@@ -64,7 +67,7 @@ def g():
     
     now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     data = {
-        'prediction': [wine],
+        'prediction': [res],
         'label': [label],
         'datetime': [now],
        }
@@ -86,7 +89,7 @@ def g():
 
     # Only create the confusion matrix when our wine_predictions feature group has examples of all 3 wine predictions
     print("Number of different wine quality predictions to date: " + str(predictions.value_counts().count()))
-    if predictions.value_counts().count() == 3:
+    if predictions.value_counts().count() >= 2:
         results = confusion_matrix(labels, predictions)
     
         df_cm = pd.DataFrame(results, ['True Good Quality', 'True Bad Quality'],
@@ -97,8 +100,8 @@ def g():
         fig.savefig("./confusion_matrix.png")
         dataset_api.upload("./confusion_matrix.png", "Resources/images", overwrite=True)
     else:
-        print("You need 3 different wine quality predictions to create the confusion matrix.")
-        print("Run the batch inference pipeline more times until you get 3 different wine quality predictions") 
+        print("You need 2 different wine quality predictions to create the confusion matrix.")
+        print("Run the batch inference pipeline more times until you get 2 different wine quality predictions") 
 
 
 if __name__ == "__main__":
