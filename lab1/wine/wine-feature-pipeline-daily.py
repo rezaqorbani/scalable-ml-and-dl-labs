@@ -18,21 +18,21 @@ if LOCAL == False:
 
 def generate_wine(
     quality,
-    types,
+    #types,
     # fixed_acidity_max,
     # fixed_acidity_min,
     volatile_acidity_max,
     volatile_acidity_min,
-    # citric_acid_max,
-    # citric_acid_min,
+    citric_acid_max,
+    citric_acid_min,
     # residual_sugar_max,
     # residual_sugar_min,
     chlorides_max,
     chlorides_min,
     # free_sulfur_dioxide_max,
     # free_sulfur_dioxide_min,
-    # total_sulfur_dioxide_max,
-    # total_sulfur_dioxide_min,
+    total_sulfur_dioxide_max,
+    total_sulfur_dioxide_min,
     density_max,
     density_min,
     # pH_max,
@@ -50,20 +50,20 @@ def generate_wine(
 
     df = pd.DataFrame(
         {
-            "type": [random.choice(types)],
+            #"type": [random.choice(types)],
             # "fixed acidity": [random.uniform(fixed_acidity_max, fixed_acidity_min)],
             "volatile_acidity": [
                 random.uniform(volatile_acidity_max, volatile_acidity_min)
             ],
-            # "citric acid": [random.uniform(citric_acid_max, citric_acid_min)],
+            "citric acid": [random.uniform(citric_acid_max, citric_acid_min)],
             # "residual sugar": [random.uniform(residual_sugar_max, residual_sugar_min)],
             "chlorides": [random.uniform(chlorides_max, chlorides_min)],
             # "free sulfur dioxide": [
             #     random.uniform(free_sulfur_dioxide_max, free_sulfur_dioxide_min)
             # ],
-            # "total sulfur dioxide": [
-            #     random.uniform(total_sulfur_dioxide_max, total_sulfur_dioxide_min)
-            # ],
+            "total sulfur dioxide": [
+                random.uniform(total_sulfur_dioxide_max, total_sulfur_dioxide_min)
+            ],
             "density": [random.uniform(density_max, density_min)],
             # "pH": [random.uniform(pH_max, pH_min)],
             # "sulphates": [random.uniform(sulphates_max, sulphates_min)],
@@ -100,21 +100,21 @@ def get_random_wine():
 
     wine_df = generate_wine(
         random_quality,
-        ranges[f"type_{random_quality}"],
+        #ranges[f"type_{random_quality}"],
         # ranges[f"fixed acidity_{random_quality}"][0],
         # ranges[f"fixed acidity_{random_quality}"][1],
         ranges[f"volatile_acidity_{random_quality}"][0],
         ranges[f"volatile_acidity_{random_quality}"][1],
-        # ranges[f"citric acid_{random_quality}"][0],
-        # ranges[f"citric acid_{random_quality}"][1],
+        ranges[f"citric acid_{random_quality}"][0],
+        ranges[f"citric acid_{random_quality}"][1],
         # ranges[f"residual sugar_{random_quality}"][0],
         # ranges[f"residual sugar_{random_quality}"][1],
         ranges[f"chlorides_{random_quality}"][0],
         ranges[f"chlorides_{random_quality}"][1],
         # ranges[f"free sulfur dioxide_{random_quality}"][0],
         # ranges[f"free sulfur dioxide_{random_quality}"][1],
-        # ranges[f"total sulfur dioxide_{random_quality}"][0],
-        # ranges[f"total sulfur dioxide_{random_quality}"][1],
+        ranges[f"total sulfur dioxide_{random_quality}"][0],
+        ranges[f"total sulfur dioxide_{random_quality}"][1],
         ranges[f"density_{random_quality}"][0],
         ranges[f"density_{random_quality}"][1],
         # ranges[f"pH_{random_quality}"][0],
@@ -137,7 +137,7 @@ def g():
 
     iris_df = get_random_wine()
 
-    iris_fg = fs.get_feature_group(name="wine", version=1)
+    iris_fg = fs.get_feature_group(name="wine_final", version=1)
     iris_fg.insert(iris_df)
 
 
