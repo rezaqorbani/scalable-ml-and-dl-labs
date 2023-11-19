@@ -80,8 +80,6 @@ def get_random_wine():
     """
     Returns a DataFrame containing one random iris flower
     """
-    import pandas as pd
-    import random
 
     # generate a random number between 0 and 10
     random_quality = random.choice([0, 1])
