@@ -1,9 +1,11 @@
 import os
 import hopsworks
 import pandas as pd
+import random
+
 # import modal
 
-LOCAL = True
+# LOCAL = True
 
 # if LOCAL == False:
 #     stub = modal.Stub("wine_daily")
@@ -47,8 +49,6 @@ def generate_wine(
     """
     Returns a single wine (as in the Wine Quality dataset) as a single row in a DataFrame
     """
-    import pandas as pd
-    import random
 
     df = pd.DataFrame(
         {
