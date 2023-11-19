@@ -1,19 +1,19 @@
 import os
-import modal
+# import modal
 
 LOCAL = True
 
-if LOCAL == False:
-    stub = modal.Stub("wine_daily")
-    image = modal.Image.debian_slim().pip_install(["hopsworks"])
+# if LOCAL == False:
+#     stub = modal.Stub("wine_daily")
+#     image = modal.Image.debian_slim().pip_install(["hopsworks"])
 
-    @stub.function(
-        image=image,
-        schedule=modal.Period(days=1),
-        secret=modal.Secret.from_name("HOPSWORKS_API_KEY"),
-    )
-    def f():
-        g()
+#     @stub.function(
+#         image=image,
+#         schedule=modal.Period(days=1),
+#         secret=modal.Secret.from_name("HOPSWORKS_API_KEY"),
+#     )
+#     def f():
+#         g()
 
 
 def generate_wine(
@@ -158,7 +158,7 @@ def g():
 if __name__ == "__main__":
     if LOCAL == True:
         g()
-    else:
-        stub.deploy("wine_daily")
-        with stub.run():
-            f()
+    # else:
+    #     stub.deploy("wine_daily")
+    #     with stub.run():
+    #         f()
