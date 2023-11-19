@@ -27,7 +27,7 @@ def g():
     fs = project.get_feature_store()
     
     mr = project.get_model_registry()
-    model = mr.get_model("wine_model", version=1)
+    model = mr.get_model("wine_model", version=3)
     model_dir = model.download()
     model = joblib.load(model_dir + "/wine_model.pkl")
     
@@ -92,8 +92,8 @@ def g():
     if predictions.value_counts().count() >= 2:
         results = confusion_matrix(labels, predictions)
     
-        df_cm = pd.DataFrame(results, ['True Good Quality', 'True Bad Quality'],
-                             ['Pred Good Quality', 'Pred Bad Quality'])
+        df_cm = pd.DataFrame(results, ['True Bad Quality', 'True Good Quality'],
+                             ['Pred Bad Quality', 'Pred Good Quality'])
     
         cm = sns.heatmap(df_cm, annot=True)
         fig = cm.get_figure()
