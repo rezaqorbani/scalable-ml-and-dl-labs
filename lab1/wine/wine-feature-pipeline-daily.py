@@ -1,4 +1,6 @@
 import os
+import hopsworks
+import pandas as pd
 # import modal
 
 LOCAL = True
@@ -143,8 +145,7 @@ def get_random_wine():
 
 
 def g():
-    import hopsworks
-    import pandas as pd
+
 
     project = hopsworks.login()
     fs = project.get_feature_store()
@@ -156,8 +157,7 @@ def g():
 
 
 if __name__ == "__main__":
-    if LOCAL == True:
-        g()
+    g()
     # else:
     #     stub.deploy("wine_daily")
     #     with stub.run():
