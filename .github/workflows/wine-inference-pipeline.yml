@@ -1,4 +1,4 @@
-name: wine-feature-pipeline-inference
+name: wine-inference-pipeline
 
 on:
   workflow_dispatch:
