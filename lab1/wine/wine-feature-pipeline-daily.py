@@ -137,7 +137,7 @@ def g():
 
     iris_df = get_random_wine()
 
-    iris_fg = fs.get_feature_group(name="wine", version=1)
+    iris_fg = fs.get_feature_group(name="wine_final", version=1)
     iris_fg.insert(iris_df)
 
 

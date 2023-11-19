@@ -11,19 +11,19 @@ fs = project.get_feature_store()
 
 
 mr = project.get_model_registry()
-model = mr.get_model("wine_model", version=1)
+model = mr.get_model("wine_model_final", version=1)
 model_dir = model.download()
 model = joblib.load(model_dir + "/wine_model.pkl")
 
 
-def wine(type, volatile_acidity, chlorides, density, alcohol):
+def wine(volatile_acidity,citric_acid, chlorides, total_sulfur_dioxide, density, alcohol):
     print("Calling function")
-    if type=='White':
-        type=1
-    else:
-        type=0
-    df = pd.DataFrame([[type, volatile_acidity, chlorides, density, alcohol]], 
-                      columns=['type', 'volatile_acidity', 'chlorides', 'density', 'alcohol'])
+    # if type=='White':
+    #     type=1
+    # else:
+    #     type=0
+    df = pd.DataFrame([[volatile_acidity, citric_acid, chlorides, total_sulfur_dioxide ,density, alcohol]], 
+                      columns=['volatile_acidity','citric_acid', 'chlorides', 'total_sulfur_dioxide','density', 'alcohol'])
     print("Predicting")
     print(df)
     # 'res' is a list of predictions returned as the label.
@@ -43,9 +43,11 @@ demo = gr.Interface(
     description="Experiment with different input features to predict the wine quality.",
     allow_flagging="never",
     inputs=[
-        gr.inputs.Radio(default='White', label="Wine type", choices=['White','Red']),
+        #gr.inputs.Radio(default='White', label="Wine type", choices=['White','Red']),
         gr.inputs.Slider(0,1.6,label='Volatile Acidity'),
+        gr.inputs.Slider(0,1.7,label='Citric Acid'),
         gr.inputs.Slider(0,0.7, label="Chlorides"),
+        gr.inputs.Slider(6,440,label='Total Sulfur Dioxide'),
         gr.inputs.Slider(0.98,1.04, label="Density"),
         gr.inputs.Number(default='10', label="Alcohol"),
         ],
