@@ -36,7 +36,7 @@ def g():
     
     y_pred = model.predict(batch_data)
 
-    offset = 4
+    offset = 1
     res = y_pred[y_pred.size-offset]
     res = int(res)
     

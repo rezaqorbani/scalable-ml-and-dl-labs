@@ -1,7 +1,20 @@
 # ID2223 Wine quality predictor lab
-This is a project in creating a serverless ML system using Hopsworks.ai and Huggingface spaces. One of the apps hosted on huggingface spaces project predicts wine quality given certain features that the user can input [Wine Predictor](https://huggingface.co/spaces/rezaqorbani/wine). The other app created also hosted on huggingface spaces shows a dashboard monitoring the latest created daily wine, the predicted wine from the ML model using the synthetic created data, the confusion matrix showing the history of the model's performance on daily synthetic data and the recent prediction history showing the labels and time of creation [Wine Monitor](https://huggingface.co/spaces/rezaqorbani/Wine-Monitor)
+
+The aim of this taks to create a serverless ML system using Hopsworks.ai feature store, Hugging Face Spaces for UI, GitHub as repo and GitHub Actions for CI/CD. Through the [Wine Prediction](https://huggingface.co/spaces/rezaqorbani/wine) UI hosted on HuggingFace Spaces, it is possible to predict wine quality for a given set of input features from users. We also host the [Wine Monitor](https://huggingface.co/spaces/rezaqorbani/Wine-Monitor) dashboard, which enable monitoring of the latest wine added daily. In the dashboard, we can see the label and ground truth for the latest wine added, as well as the confusion matrix and the history of the model's performance on daily synthetic data.
+
 ## Data preprocessing
-The dataset used for wine quality was the UCI wine quality dataset. From the dataset EDA and feature preprocessing was performed in the file wine-eda-and-backfill-feature-group.py. The quality labels ranging in values from 3-9 were changed to binary classes, with quality above 5 as "good" quality and lower as "bad" quality. 
-## Model 
-Random Forest model was chosen for the task of binary classification of the wine data. The training was done using a 80/20 train test split in the wine-training-pipeline.ipynb
-## 
+
+The dataset used for wine quality was the UCI wine quality dataset. From the dataset EDA and feature preprocessing was performed in the file wine-eda-and-backfill-feature-group.py. The quality labels ranging in values from 3-9 were changed to binary classes, with quality above 5 as "good" quality and lower as "bad" quality. The reasoning for creating binary class quality labels instead of using the multiclass one, was to make the quality label more understandable for the user. If the quality can be either good or bad that is easy to understand for an end-user, however for the case of multiclass classification, if the model would predict a quality of 7 that would not say much to the user.
+
+During the data preprocessing duplicate rows were dropped and missing data were filled as a normal distribution of the features mean and std values, since the distrtibutions of the features were discovered to be normally distributed after looking at the hisitograms. Correlation matrix and pair plots were also plotted. After looking at the correlation matrix we decided to keep: Volatile Acidity, Citric Acid, Chlorides, Total sulfur dioxide, Density and Alchohol features. The chosen features along with the binary labels were sent to the feature store in hopswork.ai.
+
+## Model
+
+Random Forest model was chosen for the task of binary classification of the wine data. First of all the data were loaded from the feature store hosted ad hopsworks.ai in the wine-training-pipeline.ipynb. The training was done using a 80/20 train test split. Since the data was imbalanced in terms of "bad" and "good" quality wines SMOTE(Synthetic Minority Over-sampling Technique) was used to increase the number of training data samples. SMOTE was not used on the test dataset since we did not want leakage of oversampled data to the test dataset. The confusion matrix from the training can be found at: [Confusion Matrix Traning](https://github.com/rezaqorbani/scalable-ml-and-dl-labs/blob/main/lab1/wine/confusion_matrix.png). We got 76% accuracy on our final model.
+
+The Random Forest model used 100 estimators with a max depth of 10. The trained model was the uploaded to Hopsworks model registry
+## Pipelines
+
+Daily synthetic data of wine was created in **wine-feature-pipeline-daily.py**. The python file is set to start running everyday at a 11th minute of the 11th hour using github actions. The data was created by identifying the possible value ranges for each feature depending on if the quality was "bad" or "good". The quality of the daily wine was chosen at random and the rest of the feature was created by randomly selecting values from a uniform distribution using each features range of values. The created synthetic data was sent into the dataset being hosted on hopsworks.
+
+We also have a batch inference pipeline, the file **wine_batch_inference_pipeline.py**. The pipeline is set to run every 22th minute of the 11th hour everyday. The pipeline downloads the images of the label and prediction, last few predictions and confusion matrix from the feature store and displays them in the UI at HuggingFace Spaces.
