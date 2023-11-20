@@ -1,0 +1,7 @@
+# ID2223 Wine quality predictor lab
+This is a project in creating a serverless ML system using Hopsworks.ai and Huggingface spaces. One of the apps hosted on huggingface spaces project predicts wine quality given certain features that the user can input [Wine Predictor](https://huggingface.co/spaces/rezaqorbani/wine). The other app created also hosted on huggingface spaces shows a dashboard monitoring the latest created daily wine, the predicted wine from the ML model using the synthetic created data, the confusion matrix showing the history of the model's performance on daily synthetic data and the recent prediction history showing the labels and time of creation [Wine Monitor](https://huggingface.co/spaces/rezaqorbani/Wine-Monitor)
+## Data preprocessing
+The dataset used for wine quality was the UCI wine quality dataset. From the dataset EDA and feature preprocessing was performed in the file wine-eda-and-backfill-feature-group.py. The quality labels ranging in values from 3-9 were changed to binary classes, with quality above 5 as "good" quality and lower as "bad" quality. 
+## Model 
+Random Forest model was chosen for the task of binary classification of the wine data. The training was done using a 80/20 train test split in the wine-training-pipeline.ipynb
+## 
