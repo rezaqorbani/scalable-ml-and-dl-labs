@@ -1,3 +1,8 @@
 hopsworks
 joblib
 scikit-learn==1.1.1
+gradio==3.14
+seaborn
+dataframe-image
+modal
+httpx==0.24.1
