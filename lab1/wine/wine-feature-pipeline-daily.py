@@ -111,6 +111,7 @@ def get_random_wine():
             "alcohol_1": [8.4, 14.2],
             "alcohol_0": [8.0, 14.9],
     }
+    
 
     wine_df = generate_wine(
         random_quality,
