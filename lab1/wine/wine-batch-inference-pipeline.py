@@ -27,7 +27,7 @@ def g():
     fs = project.get_feature_store()
     
     mr = project.get_model_registry()
-    model = mr.get_model("wine_model_final", version=1)
+    model = mr.get_model("wine_model_final", version=3)
     model_dir = model.download()
     model = joblib.load(model_dir + "/wine_model.pkl")
     
